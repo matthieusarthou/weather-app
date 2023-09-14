@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, InputAdornment } from '@mui/material';
-import { Search as SearchIcon } from '@mui/icons-material';
+import { Box, CssBaseline } from '@mui/material';
 import { useGetCityLatAndLonQuery } from '../services/openweathermap';
 import { useGetCityInfoQuery } from '../services/openweathermap';
 import { useGetCitiesQuery } from '../services/mapbox';
@@ -21,28 +20,28 @@ function App() {
     !autocompleteCities.includes(e.target.value) && citySearchResults.features && setAutocompleteCities(citySearchResults.features.map((place) => place.place_name));
   };
 
-  console.log(cityInformation);
-
   return (
-    <div className={classes.root}>
-      <input list="places" type="text" id="city" name="city" onChange={handleKeyPress} value={city} required pattern={autocompleteCities.join('|')} autoComplete="off" />
-      <datalist id="places">
-        {autocompleteCities.map((city, i) => (
-          <option key={i}>{city}</option>
-        ))}
-      </datalist>
-      <br />
-      <div>{cityInformation ? <pre>Temperature: {cityInformation.current.temp}</pre> : 'Loading...'}</div>
-      <div>
+    <Box className={classes.root}>
+      <CssBaseline />
+      <Box className={classes.main}>
+        <input list="places" type="text" id="city" name="city" onChange={handleKeyPress} value={city} required pattern={autocompleteCities.join('|')} autoComplete="off" />
+        <datalist id="places">
+          {autocompleteCities.map((city, i) => (
+            <option key={i}>{city}</option>
+          ))}
+        </datalist>
         {cityInformation ? (
-          <pre>
-            Weather: {cityInformation.current.weather[0].main}, {cityInformation.current.weather[0].description}
-          </pre>
+          <div>
+            <pre>Temperature: {cityInformation.current.temp}</pre>
+            <pre>
+              Weather: {cityInformation.current.weather[0].main}, {cityInformation.current.weather[0].description}
+            </pre>
+          </div>
         ) : (
-          'Loading...'
+          <div>Loading...</div>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }
 
