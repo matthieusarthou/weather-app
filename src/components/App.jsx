@@ -60,8 +60,7 @@ function App() {
                       borderColor: 'white',
                     },
                     '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'white',
-                      color: 'white',
+                      borderColor: 'white', // Change this to your desired hover color
                     },
                   }}
                 />
@@ -89,7 +88,7 @@ function App() {
             </Box>
           )}
         </Box>
-        {cityInformation?.main ? (
+        {selectedCity ? (
           <Box
             display="flex"
             justifyContent="space-between"
@@ -116,24 +115,16 @@ function App() {
             </Box>
           </Box>
         ) : (
-          <Box>
-            <pre>Loading...</pre>
-          </Box>
+          <Box />
         )}
-        <Box className={classes.bottom}>
-          {cityInformation?.weather ? (
-            <>
-              <pre>Temperature: {cityInformation.main.temp.toFixed()}°C</pre>
-              <pre>
-                Weather: {cityInformation.weather.main}, {cityInformation.weather.description}
-              </pre>
-            </>
-          ) : (
-            <div>
-              <pre>Loading...</pre>
-            </div>
-          )}
-        </Box>
+        {selectedCity ? (
+          <Box className={classes.bottom}>
+            <pre>Temperature: {cityInformation.main.temp.toFixed()}°C</pre>
+            <pre>
+              Weather: {cityInformation.weather.main}, {cityInformation.weather.description}
+            </pre>
+          </Box>
+        ) : null}
       </Box>
     </div>
   );
