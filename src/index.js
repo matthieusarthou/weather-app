@@ -8,7 +8,13 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import { Box, Button } from '@mui/material';
 
-const theme = createTheme({});
+const theme = createTheme({
+  typography: {
+    allVariants: {
+      color: 'white',
+    },
+  },
+});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
