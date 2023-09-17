@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Chip, Paper, CssBaseline, Autocomplete, CircularProgress, Typography, TextField } from '@mui/material';
+import { Box, Button, Chip, Paper, CssBaseline, Autocomplete, CircularProgress, Typography, TextField } from '@mui/material';
 import { useGetCityInfoQuery } from '../services/openweathermap';
 import { useGetCitiesQuery } from '../services/mapbox';
 import useStyles from './styles';
@@ -20,8 +20,6 @@ function App() {
     setSelectedCity(newValue);
   };
 
-  console.log(cityInformation);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -34,10 +32,10 @@ function App() {
               options={citySearchResults?.features.map((place) => place.place_name)}
               onSelect={handleKeyPress}
               onChange={handleChange}
-              // value={selectedCity}
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  className={classes.citySearchInput}
                   label="Please select a city"
                   sx={{
                     fieldset: {
@@ -88,7 +86,7 @@ function App() {
             </Box>
           )}
         </Box>
-        {selectedCity ? (
+        {cityInformation?.main && selectedCity ? (
           <Box
             display="flex"
             justifyContent="space-between"
@@ -103,23 +101,21 @@ function App() {
             >
               {/* <Button
                 variant="text"
+                color="white"
                 sx={{ transform: 'rotate(-90deg)' }}
                 onClick={() => {
-                  setCitySearchText('');
-                  setSelectedCity('');
-                  cityLatAndLon = undefined;
+                  // setCitySearchText('');
+                  // setSelectedCity('');
                 }}
               >
                 CLEAR
               </Button> */}
             </Box>
           </Box>
-        ) : (
-          <Box />
-        )}
-        {selectedCity ? (
+        ) : null}
+        {cityInformation?.main && selectedCity ? (
           <Box className={classes.bottom}>
-            <pre>Temperature: {cityInformation.main.temp.toFixed()}°C</pre>
+            <pre>Temperature: {cityInformation.main?.temp.toFixed()}°C</pre>
             <pre>
               Weather: {cityInformation.weather.main}, {cityInformation.weather.description}
             </pre>
