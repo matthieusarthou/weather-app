@@ -13,6 +13,11 @@ const theme = createTheme({
       color: 'white',
     },
   },
+  palette: {
+    buttonWhite: {
+      main: '#FFFFFF',
+    },
+  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

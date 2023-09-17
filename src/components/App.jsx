@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Button, Chip, Paper, CssBaseline, Autocomplete, CircularProgress, Typography, TextField } from '@mui/material';
+import { Box, Button, Paper, CssBaseline, Autocomplete, CircularProgress, Typography, TextField } from '@mui/material';
 import { useGetCityInfoQuery } from '../services/openweathermap';
 import { useGetCitiesQuery } from '../services/mapbox';
 import useStyles from './styles';
@@ -20,6 +20,9 @@ function App() {
     setSelectedCity(newValue);
   };
 
+  console.log(citySearchText);
+  console.log(selectedCity);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -29,6 +32,7 @@ function App() {
             <Autocomplete
               sx={{ width: 300 }}
               disablePortal
+              value={selectedCity}
               options={citySearchResults?.features.map((place) => place.place_name)}
               onSelect={handleKeyPress}
               onChange={handleChange}
@@ -37,6 +41,7 @@ function App() {
                   {...params}
                   className={classes.citySearchInput}
                   label="Please select a city"
+                  value={selectedCity}
                   sx={{
                     fieldset: {
                       border: '2px solid white',
@@ -58,7 +63,7 @@ function App() {
                       borderColor: 'white',
                     },
                     '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: 'white', // Change this to your desired hover color
+                      borderColor: '#FFFFFF',
                     },
                   }}
                 />
@@ -91,34 +96,45 @@ function App() {
             display="flex"
             justifyContent="space-between"
           >
-            <div>
-              <Typography variant="h5">{selectedCity.substring(0, selectedCity.indexOf(','))}</Typography>
-              <Typography variant="h2">{cityInformation.main.temp.toFixed()}°C</Typography>
+            <div style={{ padding: 25 }}>
+              <Typography variant="h3">{selectedCity.substring(0, selectedCity.indexOf(','))}</Typography>
+              <Typography variant="h3">{cityInformation.main.temp.toFixed()}°C</Typography>
             </div>
             <Box
               display="flex"
-              justifyContent="center"
+              justifyContent="end"
             >
-              {/* <Button
+              <Button
                 variant="text"
-                color="white"
-                sx={{ transform: 'rotate(-90deg)' }}
+                color="buttonWhite"
+                sx={{ transform: 'rotate(-90deg)', fontWeight: 'bold', fontSize: '20px' }}
                 onClick={() => {
-                  // setCitySearchText('');
-                  // setSelectedCity('');
+                  setCitySearchText('');
+                  setSelectedCity('');
                 }}
               >
                 CLEAR
-              </Button> */}
+              </Button>
             </Box>
           </Box>
         ) : null}
         {cityInformation?.main && selectedCity ? (
           <Box className={classes.bottom}>
-            <pre>Temperature: {cityInformation.main?.temp.toFixed()}°C</pre>
-            <pre>
-              Weather: {cityInformation.weather.main}, {cityInformation.weather.description}
-            </pre>
+            <Typography variant="h5">
+              Feels like:
+              <br />
+              {cityInformation.main.feels_like.toFixed()}°C
+            </Typography>
+            <Typography variant="h5">
+              Humidity:
+              <br />
+              {cityInformation.main.humidity}%
+            </Typography>{' '}
+            <Typography variant="h5">
+              Wind speed:
+              <br />
+              {cityInformation.wind.speed} km/h
+            </Typography>
           </Box>
         ) : null}
       </Box>
