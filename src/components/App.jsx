@@ -20,9 +20,6 @@ function App() {
     setSelectedCity(newValue);
   };
 
-  console.log(citySearchText);
-  console.log(selectedCity);
-
   return (
     <div className={classes.root}>
       <CssBaseline />
